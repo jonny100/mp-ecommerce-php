@@ -18,7 +18,19 @@
             $plan = MercadoPago\Invoice.find_by_id($_POST["id"]);
             break;
     }
-
+    
+    // set the status
+    $status_header = 'HTTP/1.1 200 OK';
+    header($status_header);
+    header("Access-Control-Allow-Origin: *");
+    header("Access-Control-Allow-Methods: PUT, GET, POST, DELETE");
+    header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
+    // and the content type
+    header('Content-type: application/json');
+    
+    $data = array('mensaje' => 'OK.');
+    echo json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+    exit;
 ?>
 
 <script src="https://www.mercadopago.com/v2/security.js"></script>
