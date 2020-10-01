@@ -5,7 +5,7 @@
     MercadoPago\SDK::setAccessToken('APP_USR-6317427424180639-042414-47e969706991d3a442922b0702a0da44-469485398');
     
     $file = fopen("captura.log", "w");
-    fwrite($file, $_POST . PHP_EOL);
+    fwrite($file, var_dump($_POST) . PHP_EOL);
     fclose($file);
 
     switch($_POST["type"]) {
