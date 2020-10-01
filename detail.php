@@ -12,10 +12,52 @@
 
     // Crea un ítem en la preferencia
     $item = new MercadoPago\Item();
-    $item->title = 'Mi producto';
+    $item->id = "1234";
+    $item->title = $_POST['title'];
+    $item->description = "Dispositivo móvil de Tienda e-commerce";
+    $item->picture_url = $_POST['img'];
     $item->quantity = 1;
-    $item->unit_price = 75.56;
+    $item->unit_price = $_POST['price'];
+    $preference->external_reference = "jonny_0385@hotmail.com";
     $preference->items = array($item);
+    // El cliente quiere que los pagos con tarjeta de crédito se puedan pagar permitiendo como
+    // máximo ​ 6 cuotas ​ (mensualidades). A su vez, no quiere permitir pagos con tarjetas
+    // American Express (​ amex​ ) ni tampoco con medios de pago del tipo cajero automático (​ atm​ ).
+    $preference->payment_methods = array(
+        "excluded_payment_methods" => array(
+          array("id" => "amex")
+        ),
+        "excluded_payment_types" => array(
+          array("id" => "atm")
+        ),
+        "installments" => 6
+    );
+    //Datos del Payer
+    $payer = new MercadoPago\Payer();
+    $payer->name = "Lalo";
+    $payer->surname = "Landa";
+    $payer->email = "test_user_63274575@testuser.com";
+    $payer->phone = array(
+      "area_code" => "11",
+      "number" => "22223333"
+    );
+
+    $payer->address = array(
+      "street_name" => "False",
+      "street_number" => 123,
+      "zip_code" => "1111"
+    );
+    $preference->payer = $payer;
+    
+    $preference->back_urls = array(
+        "success" => $_SERVER["HTTP_HOST"] . "/success.php",
+        "failure" => $_SERVER["HTTP_HOST"] . "/failure.php",
+        "pending" => $_SERVER["HTTP_HOST"] . "/pending.php"
+    );
+    $preference->auto_return = "approved";
+    
+    $preference->notification_url = $_SERVER["HTTP_HOST"] . "/notification.php";
+    
     $preference->save();
 ?>
 
@@ -31,6 +73,8 @@
     src="https://code.jquery.com/jquery-3.4.1.min.js"
     integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
     crossorigin="anonymous"></script>
+    
+    <script src="https://www.mercadopago.com/v2/security.js" view="item"></script>
 
     <link rel="stylesheet" href="./assets/category-landing.css" media="screen, print">
 
@@ -144,15 +188,16 @@
                                             </h3>
                                         </div>
                                         <h3 >
-                                            <?php echo $_POST['price'] ?>
+                                            <?php echo "$" . $_POST['price'] ?>
                                         </h3>
                                         <h3 >
-                                            <?php echo "$" . $_POST['unit'] ?>
+                                            <?php echo "Cantidad: " . $_POST['unit'] ?>
                                         </h3>
                                     </div>
                                     <form action="/procesar-pago" method="POST">
                                         <script
                                          src="https://www.mercadopago.com.ar/integrations/v1/web-payment-checkout.js"
+                                         data-button-label="Pagar la compra"
                                          data-preference-id="<?php echo $preference->id; ?>">
                                         </script>
                                     </form>
