@@ -17,7 +17,7 @@
     $item->id = "1234";
     $item->title = $_POST['title'];
     $item->description = "Dispositivo móvil de Tienda e-commerce";
-    $item->picture_url = $_POST['img'];
+    $item->picture_url = $_SERVER["HTTP_HOST"] . $_POST['img'];
     $item->quantity = 1;
     $item->unit_price = $_POST['price'];
     $preference->external_reference = "jonny_0385@hotmail.com";
