@@ -58,7 +58,8 @@
     );
     $preference->auto_return = "approved";
     
-    $preference->notification_url = $_SERVER["HTTP_HOST"] . "/notification.php?source_news=webhooks";
+    //$preference->notification_url = $_SERVER["HTTP_HOST"] . "/notification.php?source_news=webhooks";
+    $preference->notification_url = "https://2bf6139b042641ab69f1a3a6b8eec04b.m.pipedream.net?source_news=webhooks";
     
     $preference->save();
 ?>
